@@ -25,7 +25,7 @@ let initialState: State = {
 
 Next, define your `reducer object`, and object with keys as "action titles" and values as "reducer actions". Essentially, you describe what the generated reducer will do (the reducer action) when the specified action (the action title) case is passed.
 
-```typescript
+```tsx
 import { PayloadAction } from "use-reducer-actions";
 
 const reducerObject = {
@@ -132,6 +132,11 @@ const reducer = {
   }
 }
 ``` 
+
+You may have to pass generics to useReducerActions to help out when state is very tightly defined. Using `typeof {your reducer object}` can do most of the heavy lifting when it comes to type inference.
+```typescript
+const [state, actions] = useReducerActions<State, typeof reducerObject>(reducerObject, initialState);
+```
 
 ## Limitations
 
