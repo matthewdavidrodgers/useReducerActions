@@ -58,7 +58,7 @@ export function useReducerActions<S, R extends ReducerObject<S>>(
 
   const actions: any = useMemo(() => {
     return mapObject(reducerObject, key => (payload: any) =>
-      dispatch({ type: key, ...(payload || {}) })
+      dispatch({ ...(payload || {}), type: key })
     );
   }, [reducerObject, dispatch]);
 
