@@ -47,6 +47,9 @@ export function useReducerActions<S, R extends ReducerObject<S>>(
 ): [S, BoundActionObject<R>] {
   const reducer = useCallback(
     (state: S, action: Action<R>) => {
+      if (!reducerObject[action.type]) {
+        return state;
+      }
       return reducerObject[action.type](state, action as any);
     },
     [reducerObject]
