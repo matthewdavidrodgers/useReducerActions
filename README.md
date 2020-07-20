@@ -50,7 +50,7 @@ const reducerObject = {
 
 Now you can use your stateful logic as easily invoked actions - no need to call a dispatch function. All together now:
 
-```typescriptreact
+```tsx
 import React from "react";
 import { useReducerActions, PayloadAction } from "use-reducer-actions";
 
@@ -137,6 +137,12 @@ You may have to pass generics to useReducerActions to help out when state is ver
 ```typescript
 const [state, actions] = useReducerActions<State, typeof reducerObject>(reducerObject, initialState);
 ```
+
+## Future Work
+
+It could be nice to include [Immer](https://github.com/immerjs/immer) in the same way that redux-toolkit does, but as a feature this is fairly low priority for me.
+
+Typings can get out of sync quite quickly. And when the reducer object is defined outside of its usage in the component, the errors can be hard to read. It may be useful to define a "higher-order hook" - a function that you call outside of a component that returns a hook that is bound to you reducerObject and initialState, much like the original `createSlice()` api does. That way at the very least type inference may be more intuitive, no need to use `typeof {your reducer object}` in a generic.
 
 ## Limitations
 
