@@ -10,7 +10,7 @@ document.body.appendChild(root);
 type State = {
   values: string[];
   combined: string;
-}
+};
 
 const initialState: State = {
   values: [],
@@ -27,7 +27,7 @@ const reducer = {
     let newValues = state.values.slice(0, state.values.length - 1);
     return { values: newValues, combined: newValues.join(", ") };
   }
-}
+};
 
 const TestComponent: React.FC = () => {
   const [state, actions] = useReducerActions(reducer, initialState);
@@ -39,21 +39,34 @@ const TestComponent: React.FC = () => {
         <span id="value">{state.combined}</span>
       </div>
       <div>
-        <button id="append" onClick={() => actions.append({ payload: "value" })}>Append</button>
-        <button id="pop" onClick={() => actions.pop()}>Pop</button>
-        <button id="reset" onClick={() => actions.reset()}>Reset</button>
+        <button
+          id="append"
+          onClick={() => actions.append({ payload: "value" })}
+        >
+          Append
+        </button>
+        <button id="pop" onClick={() => actions.pop()}>
+          Pop
+        </button>
+        <button id="reset" onClick={() => actions.reset()}>
+          Reset
+        </button>
       </div>
     </div>
   );
-}
+};
 
 test("can use bound actions without wrapping in dispatch", () => {
   ReactDOM.render(<TestComponent />, document.querySelector("#root"));
 
   let value = document.querySelector("#value");
   let appendBtn = document.querySelector("#append") as HTMLButtonElement;
-  let popBtn: HTMLButtonElement = document.querySelector("#pop") as HTMLButtonElement;
-  let resetBtn: HTMLButtonElement = document.querySelector("#reset") as HTMLButtonElement;
+  let popBtn: HTMLButtonElement = document.querySelector(
+    "#pop"
+  ) as HTMLButtonElement;
+  let resetBtn: HTMLButtonElement = document.querySelector(
+    "#reset"
+  ) as HTMLButtonElement;
 
   expect(value?.textContent).toEqual("");
 
