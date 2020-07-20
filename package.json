@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "usereduceractions",
+  "name": "use-reducer-actions",
   "author": "Matthew Rodgers",
   "module": "dist/usereduceractions.esm.js",
   "devDependencies": {
