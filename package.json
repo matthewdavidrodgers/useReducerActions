@@ -43,6 +43,7 @@
     }
   },
   "name": "use-reducer-actions",
+  "description": "A react hook that wraps useReducer and provides an object-based shorthand inspired by redux toolkit",
   "author": "Matthew Rodgers",
   "module": "dist/use-reducer-actions.esm.js",
   "devDependencies": {

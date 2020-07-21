@@ -7,6 +7,10 @@ function mapObject<O, MR>(obj: O, mapFn: (key: keyof O) => MR) {
   }
   return mappingObj as { [K in keyof O]: MR };
 }
+
+/**
+ * A type used to annotate the Action argument of your reducer actions. All actions with a payload must extend this type
+ */
 export type PayloadAction<P extends {}> = { payload: P };
 
 type PayloadReducerActionCreator<
@@ -18,7 +22,7 @@ type ReducerAction<S> =
   | PayloadReducerActionCreator<S>
   | PayloadlessReducerActionCreator<S>;
 
-type ReducerObject<S = any> = {
+export type ReducerObject<S = any> = {
   [K: string]: ReducerAction<S>;
 };
 
@@ -33,7 +37,7 @@ type Action<
 
 type BoundPayloadAction<P extends {}> = (action: PayloadAction<P>) => void;
 type BoundPayloadlessAction = () => void;
-type BoundActionObject<R extends ReducerObject<any>> = {
+export type BoundActionObject<R extends ReducerObject<any>> = {
   [K in keyof R]: R[K] extends (state: any, action: infer A) => void
     ? A extends PayloadAction<infer P>
       ? BoundPayloadAction<P>
@@ -41,6 +45,12 @@ type BoundActionObject<R extends ReducerObject<any>> = {
     : BoundPayloadlessAction;
 };
 
+/**
+ * Describe state and its reducer-tight progressions through an object-based shorthand
+ * @param reducerObject an object with reducer actions as values and the action names as its keys
+ * @param initialState the default value of state
+ * @returns {[State, BoundACtionObject]} a tuple of state and an object of directly callable actions
+ */
 export function useReducerActions<S, R extends ReducerObject<S>>(
   reducerObject: R,
   initialState: S
