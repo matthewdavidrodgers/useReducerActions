@@ -35,7 +35,7 @@ type Action<
     : { type: K }
   : { type: K };
 
-type BoundPayloadAction<P extends {}> = (action: PayloadAction<P>) => void;
+type BoundPayloadAction<P> = (actionPayload: P) => void;
 type BoundPayloadlessAction = () => void;
 export type BoundActionObject<R extends ReducerObject<any>> = {
   [K in keyof R]: R[K] extends (state: any, action: infer A) => void
@@ -57,9 +57,6 @@ export function useReducerActions<S, R extends ReducerObject<S>>(
 ): [S, BoundActionObject<R>] {
   const reducer = useCallback(
     (state: S, action: Action<R>) => {
-      if (!reducerObject[action.type]) {
-        return state;
-      }
       return reducerObject[action.type](state, action as any);
     },
     [reducerObject]
@@ -67,9 +64,10 @@ export function useReducerActions<S, R extends ReducerObject<S>>(
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const actions: any = useMemo(() => {
-    return mapObject(reducerObject, key => (payload: any) =>
-      dispatch({ ...(payload || {}), type: key })
-    );
+    return mapObject(reducerObject, key => (payload: any) => {
+      let action: Action<R> = { type: key, payload } as any;
+      return dispatch(action);
+    });
   }, [reducerObject, dispatch]);
 
   return [state, actions];

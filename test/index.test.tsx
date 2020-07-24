@@ -39,10 +39,7 @@ const TestComponent: React.FC = () => {
         <span id="value">{state.combined}</span>
       </div>
       <div>
-        <button
-          id="append"
-          onClick={() => actions.append({ payload: "value" })}
-        >
+        <button id="append" onClick={() => actions.append("value")}>
           Append
         </button>
         <button id="pop" onClick={() => actions.pop()}>
